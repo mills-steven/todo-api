@@ -14,6 +14,11 @@ var todos =[{
 	id: 3,
 	description: 'Get the car washed today.',
 	completed: true
+}, {
+	id: 69,
+	description: 'Jeremy gets fucked in the ass by Tom Brady',
+	completed: false
+
 }]  
 
 
