@@ -1,26 +1,12 @@
 var express = require('express');
+var bodyParser = require('body-parser');
+
 var app = express();
 var PORT = process.env.PORT || 3000;
-var todos =[{
-	id: 1,
-	description: 'Meet wife for lunch.',
-	completed: false
+var todos =[];  
+var todoNextId = 1;
 
-}, {
-	id: 2,
-	description: 'Complete this course.',
-	completed: false
-}, {
-	id: 3,
-	description: 'Get the car washed today.',
-	completed: true
-}, {
-	id: 69,
-	description: 'Jeremy gets fucked in the ass by Tom Brady',
-	completed: false
-
-}]  
-
+app.use(bodyParser.json());
 
 
 app.get('/', function (req, res) {
@@ -53,6 +39,18 @@ app.get('/todos/:id', function (req, res) {
   		}
 });
 
+
+// POST Request 
+
+app.post('/todos', function (req, res) {
+	var body = req.body;
+
+	body.id = todoNextId++;
+
+
+	todos.push(body);
+	res.json(body);
+});
 
 app.listen(PORT, function () {
 	console.log('Exoress listing on port: ' + PORT + '!');
