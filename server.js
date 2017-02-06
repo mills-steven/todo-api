@@ -67,6 +67,38 @@ app.delete('/todos/:id', function (req, res) {
 
 });
 
+//UPDATE Method PUT
+app.put('/todos/:id', function (req, res) {
+	var todoID = parseInt(req.params.id, 10);
+	var matchedTodo = _.findWhere(todos, {id: todoID});
+	var accpetedBody = _.pick(req.body, 'description', 'completed');
+	var valiedAttriubtes = {};
+
+	if (! matchedTodo) {
+		return res.status(404).send();
+	}
+
+	if (accpetedBody.hasOwnProperty('completed') && _.isBoolean(accpetedBody.completed) ) {
+		valiedAttriubtes.completed = accpetedBody.completed;
+	} else if (accpetedBody.hasOwnProperty('completed')) {
+		return res.status(400).send();
+	} 
+
+	if (accpetedBody.hasOwnProperty('description') && _.isString(accpetedBody.description) && accpetedBody.description.trim().length > 0) {
+		valiedAttriubtes.description = accpetedBody.description;
+	} else if (accpetedBody.hasOwnProperty('description')) {
+		return res.status(400).send();
+	}
+
+	_.extend(matchedTodo, valiedAttriubtes);
+	res.json(matchedTodo);
+
+
+});
+
+
+
+
 
 app.listen(PORT, function () {
 	console.log('Exoress listing on port: ' + PORT + '!');
