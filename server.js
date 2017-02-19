@@ -132,7 +132,7 @@ app.post('/account', function (req, res) {
 	var account = _.pick(req.body, 'email', 'password');
 
 	db.user.create(account).then(function (accounts) {
-		res.json(accounts.toJSON());
+		res.json(accounts.toPublicJSON());
 	}, function (e) {
 		res.status(400).json(e);
 	});
