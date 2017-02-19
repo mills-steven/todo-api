@@ -42,7 +42,7 @@ app.get('/todos', function(req, res) {
 
 
 //GET /todos/:id
-app.get('/todos/:id', function(req, res) {
+app.get('/todos/:id', function (req, res) {
 	var todoID = parseInt(req.params.id, 10);
 	
 	db.todo.findById(todoID).then(function (todo){
@@ -58,7 +58,7 @@ app.get('/todos/:id', function(req, res) {
 });
 
 
-// POST Request 
+// POST Request /todos
 
 app.post('/todos', function(req, res) {
 	var accpetedBody = _.pick(req.body, 'description', 'completed');
@@ -71,7 +71,6 @@ app.post('/todos', function(req, res) {
 	});
 
 });
-
 
 //DELETE Request
 app.delete('/todos/:id', function(req, res) {
@@ -126,6 +125,20 @@ app.put('/todos/:id', function(req, res) {
 		})
 	
  });
+
+//POST Request /account
+
+app.post('/account', function (req, res) {
+	var account = _.pick(req.body, 'email', 'password');
+
+	db.user.create(account).then(function (accounts) {
+		res.json(accounts.toJSON());
+	}, function (e) {
+		res.status(400).json(e);
+	});
+
+});
+
 
 db.sequelize.sync().then(function () {
 	app.listen(PORT, function() {
